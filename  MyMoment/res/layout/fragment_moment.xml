@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+      
+	   	<LinearLayout 
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+	    <Button
+	        android:id="@+id/button_date"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" 
+	        >
+	    </Button>
+	
+	    <EditText
+	        android:id="@+id/title_moment"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:hint="@string/title_hint"
+	         />
+	    </LinearLayout>
+	    
+	     <LinearLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="4dp">
+	   	 <ImageView
+	        android:id="@+id/imageView_moment"
+	        android:layout_width="80dp"
+	        android:layout_height="80dp"
+	        android:scaleType="centerInside" 
+	        android:background="@drawable/ic_action_picture"
+	        android:cropToPadding="true"/>
+	   	</LinearLayout>
+	</LinearLayout>
+	
+    <EditText
+        android:id="@+id/detail_moment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center_vertical|top"
+        android:hint="@string/detail_hint"
+        android:inputType="textAutoComplete|textAutoCorrect" 
+        android:layout_weight="1"/>
+
+ 
+
+    
+
+</LinearLayout>
