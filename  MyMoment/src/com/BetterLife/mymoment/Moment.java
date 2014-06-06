@@ -6,6 +6,8 @@ import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.format.Time;
+
 public class Moment {
 	private static final String JSON_TITLE = "title";
 	private static final String JSON_ID = "id";
@@ -18,12 +20,13 @@ public class Moment {
 	private Date mDate;
 	private String mDetail;
 	private Photo mPhoto;
-	
+
 
 	
 	public Moment(){
 		mId = UUID.randomUUID();
 		mDate = new Date();
+
 	}
 	
 	//create a constructor that accepts a JSONObject
@@ -53,7 +56,6 @@ public class Moment {
 		return mTitle;
 	}
 
-	
 	public Photo getPhoto() {
 		return mPhoto;
 	}
