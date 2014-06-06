@@ -17,7 +17,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,7 +26,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 public class MomentFragment extends Fragment {
@@ -35,6 +33,7 @@ public class MomentFragment extends Fragment {
 	private Moment mMoment;
 	private EditText mTextTitle;
 	private Button mButtonDate;
+	private Button mButtonTime;
 	private EditText mTextDetail;
 	private ImageView mImageViewPhoto;
 	private Callbacks mCallbacks;
@@ -42,8 +41,10 @@ public class MomentFragment extends Fragment {
 	public static final String EXTRA_MOMENT_ID = 
 			"com.BetterLife.mymoment.moment_id";
 	private static final String DIALOG_DATE = "date";
+	private static final String DIALOG_TIME = "time";
 	private static final int REQUEST_DATE = 0;
 	private static final int REQUEST_PHOTO = 1;
+	private static final int REQUEST_TIME = 2;
 	private static final String DIALOG_IMAGE = "image";
 	
 	//*** any hosting activity of this fragment has to implements this interface
@@ -124,11 +125,23 @@ public class MomentFragment extends Fragment {
 			@Override
 			public void onClick(View v){
 				FragmentManager fm = getActivity().getSupportFragmentManager();
-				DatePickerFragment dialog = DatePickerFragment.
+				DatePickerFragment dialogDate = DatePickerFragment.
 						newInstance(mMoment.getDate());
-				dialog.setTargetFragment(MomentFragment.this,
+				dialogDate.setTargetFragment(MomentFragment.this,
 						REQUEST_DATE);
-				dialog.show(fm, DIALOG_DATE);
+				dialogDate.show(fm, DIALOG_DATE);
+			}
+		});
+		
+		mButtonTime = (Button)v.findViewById(R.id.button_time);
+		updateTimeDisplay(mMoment.getDate());
+		mButtonTime.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v){
+				FragmentManager fm = getActivity().getSupportFragmentManager();
+				TimePickerFragment dialogTime =TimePickerFragment.newInstance(mMoment.getDate());
+				dialogTime.setTargetFragment(MomentFragment.this, REQUEST_TIME);
+				dialogTime.show(fm, DIALOG_TIME);
 			}
 		});
 		
@@ -214,6 +227,11 @@ public class MomentFragment extends Fragment {
 				mCallbacks.onMomentUpdated(mMoment);
 				updateDate(mMoment.getDate());
 				return;
+			case REQUEST_TIME:
+				Date time = (Date)i.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
+				mMoment.setDate(time);
+				mCallbacks.onMomentUpdated(mMoment);
+				updateTimeDisplay(mMoment.getDate());
 			case REQUEST_PHOTO:
 				String pictureName = i.getStringExtra(MomentCameraFragment
 						.EXTRA_PHOTONAME);
@@ -225,6 +243,21 @@ public class MomentFragment extends Fragment {
 				}
 				return;
 		}
+	}
+	private void updateTimeDisplay(Date date){
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		int hours = c.get(Calendar.HOUR_OF_DAY);
+		int mins = c.get(Calendar.MINUTE);
+		mButtonTime.setText(new StringBuilder().append(pad(hours))
+				.append(":").append(pad(mins)));
+	}
+	
+	private static String pad(int c) {
+		if (c >= 10)
+			return String.valueOf(c);
+		else
+			return "0" + String.valueOf(c);
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item){

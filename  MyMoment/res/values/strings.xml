@@ -13,4 +13,5 @@
 	<string name="moment_share">Share</string>
 	<string name="moment_share_subject">MyMoment</string>
 	<string name="camera">Camera</string>
+	<string name="time_picker_title">Time</string>
 </resources>
